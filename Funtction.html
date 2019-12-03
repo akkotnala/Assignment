@@ -30,10 +30,10 @@
             var categoryData = jsonData[category];
             var validProductsInThisCategory = [];
             var inValidProductsInThisCategory = [];
-            
+            // pushing the data into the array giving new length to it
             categoryData.forEach((product) => {
                 if(isValidProduct(product)){
-                    validProductsInThisCategory.push(product);
+                    validProductsInThisCategory.pus(product);
                 }else{
                     inValidProductsInThisCategory.push(product);
                 }
@@ -47,14 +47,14 @@
       console.log('The request failed!');
       console.log(err);
     });
-      
+      // conditions for when the product is valid
   function isValidProduct(product){
       if(product.description && parseFloat(product.price) && !isNaN(product.upc) && product.upc.length == 12){      return true;    
       }else{
           return false;
       }
   }
-      
+      // is user selects one of the option
   function updateProducts(val){
       if(val == 'valid'){
           console.log('valid', validProducts);
