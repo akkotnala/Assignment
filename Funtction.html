@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+
+  <h2>Assignment</h2>
+
+  <select id="myselect" onchange="is_valid(this.value)">
+  <option value="">Choose an option:</option>
+  <option value="customers">Valid Product</option>
+  <option value="products">Invalid Product</option>
+</select>
+  
+  <p id="demo"></p>
+
+  <script>
+    fetch('products.json').then(response => {
+      return response.json();
+    }).then(data => {
+      for (var i = 0; i < data.Grocery.length; i++) {
+        var obj = data.Grocery[i];
+        for (var key in obj) {
+          var value = obj[key];
+          if (obj.upc.length == 12 && obj.description && parseFloat(obj.price)) {
+            document.write("<br> - " + key + ": " + value + " valid");
+          } else {
+            document.write("<br> - " + key + ": " + value + " invalid");
+          }
+        }
+      }
+
+      for (var i = 0; i < data.Bakery.length; i++) {
+        var obj = data.Bakery[i];
+        for (var key in obj) {
+          var value = obj[key];
+          if (obj.upc.length == 12 && obj.description && parseFloat(obj.price)) {
+            document.write("<br> - " + key + ": " + value + " valid");
+          } else {
+            document.write("<br> - " + key + ": " + value + " invalid");
+          }
+        }
+      }
+    }).catch(err => {
+      //when the request fails
+      console.log('The request failed!');
+      console.log(err);
+    });
+  </script>
+
+</body>
+
+</html>
