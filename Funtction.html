@@ -49,7 +49,7 @@
     });
       
   function isValidProduct(product){
-      if(product.description && !isNaN(product.price) && !isNaN(product.upc) && product.upc.length == 12){      return true;    
+      if(product.description && parseFloat(product.price) && !isNaN(product.upc) && product.upc.length == 12){      return true;    
       }else{
           return false;
       }
