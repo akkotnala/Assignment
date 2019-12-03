@@ -5,46 +5,65 @@
 
   <h2>Assignment</h2>
 
-  <select id="myselect" onchange="is_valid(this.value)">
-  <option value="">Choose an option:</option>
-  <option value="customers">Valid Product</option>
-  <option value="products">Invalid Product</option>
-</select>
+  <select id="myselect" onchange="updateProducts(this.value)">
+      <option value="">Choose an option:</option>
+      <option value="valid">Valid Product</option>
+      <option value="invalid">Invalid Product</option>
+  </select>
   
-  <p id="demo"></p>
+  <p id="content"></p>
 
   <script>
+    var jsonData;
+    var validProducts;
+    var inValidProducts;
     fetch('products.json').then(response => {
       return response.json();
     }).then(data => {
-      for (var i = 0; i < data.Grocery.length; i++) {
-        var obj = data.Grocery[i];
-        for (var key in obj) {
-          var value = obj[key];
-          if (obj.upc.length == 12 && obj.description && parseFloat(obj.price)) {
-            document.write("<br> - " + key + ": " + value + " valid");
-          } else {
-            document.write("<br> - " + key + ": " + value + " invalid");
-          }
-        }
-      }
-
-      for (var i = 0; i < data.Bakery.length; i++) {
-        var obj = data.Bakery[i];
-        for (var key in obj) {
-          var value = obj[key];
-          if (obj.upc.length == 12 && obj.description && parseFloat(obj.price)) {
-            document.write("<br> - " + key + ": " + value + " valid");
-          } else {
-            document.write("<br> - " + key + ": " + value + " invalid");
-          }
-        }
-      }
+        console.log(data);
+        jsonData = data;
+        validProducts = {};
+        inValidProducts = {};
+        Object.keys(jsonData).forEach(function(category) {
+            console.log(category, jsonData[category]);
+            var categoryName = category;
+            var categoryData = jsonData[category];
+            var validProductsInThisCategory = [];
+            var inValidProductsInThisCategory = [];
+            
+            categoryData.forEach((product) => {
+                if(isValidProduct(product)){
+                    validProductsInThisCategory.push(product);
+                }else{
+                    inValidProductsInThisCategory.push(product);
+                }
+            });
+            
+            validProducts[categoryName] = validProductsInThisCategory;
+            inValidProducts[categoryName] = inValidProductsInThisCategory;            
+        });
     }).catch(err => {
       //when the request fails
       console.log('The request failed!');
       console.log(err);
     });
+      
+  function isValidProduct(product){
+      if(product.description && !isNaN(product.price) && !isNaN(product.upc) && product.upc.length == 12){      return true;    
+      }else{
+          return false;
+      }
+  }
+      
+  function updateProducts(val){
+      if(val == 'valid'){
+          console.log('valid', validProducts);
+          document.getElementById('content').innerHTML = JSON.stringify(validProducts);
+      }else{
+          console.log('inValid', inValidProducts);
+          document.getElementById('content').innerHTML = JSON.stringify(inValidProducts);
+      }
+  }
   </script>
 
 </body>
