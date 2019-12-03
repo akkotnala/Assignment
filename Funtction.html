@@ -13,7 +13,7 @@
   
   <p id="content"></p>
 
-  <script>
+  <script type="text/javascript">
     var jsonData;
     var validProducts;
     var inValidProducts;
@@ -33,7 +33,7 @@
             // pushing the data into the array giving new length to it
             categoryData.forEach((product) => {
                 if(isValidProduct(product)){
-                    validProductsInThisCategory.pus(product);
+                    validProductsInThisCategory.push(product);
                 }else{
                     inValidProductsInThisCategory.push(product);
                 }
